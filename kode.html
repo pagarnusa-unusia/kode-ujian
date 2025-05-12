@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login dengan Kode</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo-area {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 140px; /* Atur lebar maksimum logo sesuai keinginan Anda */
+            height: auto;
+        }
+
+        h1 {
+            margin-bottom: 50px;
+            color: #555;
+            font-size: 2.0em;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #777;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .kode-container {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 30px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .kode-container.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .kode-area {
+            color: #495057;
+            white-space: pre-wrap;
+            flex-grow: 1;
+            margin-right: 15px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .salin-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        .salin-button:hover {
+            background-color: #1e7e34;
+            transform: scale(1.05);
+        }
+
+        .alert {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-area">
+            <img src="logopn.png" alt="Logo Aplikasi" class="logo">
+        </div>
+        <h1>KODE UJIAN</h1>
+        <div class="form-group">
+            <label for="nama">Nama Pengguna:</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda">
+        </div>
+        <button onclick="tampilkanKode()">Cari</button>
+
+        <div id="kode-container" class="kode-container">
+            <div id="kode-area" class="kode-area"></div>
+            <button class="salin-button" onclick="salinKode()">Salin Kode</button>
+        </div>
+
+        <div id="alert-area" class="alert" style="display: none;"></div>
+    </div>
+
+    <script>
+        const dataPengguna = {
+            "Budi": "KODE-RAHASIA-BUDI-123",
+            "Andi": "SANDI-KEREN-ANDI-456",
+            "Muhammad Ibnu Mundzir": "M06I0304M",
+            // Tambahkan data pengguna lain di sini
+        };
+
+        const kodeContainer = document.getElementById("kode-container");
+        const kodeArea = document.getElementById("kode-area");
+        const alertArea = document.getElementById("alert-area");
+
+        function tampilkanKode() {
+            const namaInput = document.getElementById("nama").value.trim();
+            alertArea.style.display = "none";
+
+            if (dataPengguna.hasOwnProperty(namaInput)) {
+                kodeArea.textContent = dataPengguna[namaInput];
+                kodeContainer.classList.add("show");
+            } else {
+                kodeContainer.classList.remove("show");
+                alertArea.textContent = "Nama tidak ditemukan.";
+                alertArea.className = "alert alert-danger";
+                alertArea.style.display = "block";
+            }
+        }
+
+        function salinKode() {
+            const kodeUntukDisalin = kodeArea.textContent;
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(kodeUntukDisalin)
+                    .then(() => {
+                        showAlert("Kode berhasil disalin!", "success");
+                    })
+                    .catch(err => {
+                        console.error('Gagal menyalin teks: ', err);
+                        fallbackCopyToClipboard(kodeUntukDisalin);
+                    });
+            } else {
+                fallbackCopyToClipboard(kodeUntukDisalin);
+            }
+        }
+
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = 0;
+            textArea.style.left = 0;
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = 0;
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'berhasil' : 'gagal';
+                showAlert(`Kode ${msg} disalin!`, successful ? "success" : "danger");
+            } catch (err) {
+                console.error('Tidak dapat menyalin teks: ', err);
+                showAlert('Gagal menyalin kode.', "danger");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showAlert(message, type) {
+            alertArea.textContent = message;
+            alertArea.className = `alert alert-${type}`;
+            alertArea.style.display = "block";
+            setTimeout(() => {
+                alertArea.style.display = "none";
+            }, 3000); // Sembunyikan alert setelah 3 detik
+        }
+    </script>
+</body>
+</html>
