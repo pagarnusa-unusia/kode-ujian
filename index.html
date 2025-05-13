@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login dengan Kode</title>
+    <title>Pencarian Kode Ujian</title>
+    <meta name="description" content="Halaman untuk mencari kode ujian berdasarkan nama pengguna.">
+    <meta name="keywords" content="login, kode ujian, pencarian kode">
+    <meta name="author" content="Tim Pengembang Aplikasi Anda">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,17 +15,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;  
+            min-height: 100vh;
             margin: 0;
             color: #333;
             padding: 20px;
             box-sizing: border-box;
-            opacity: 0; /* Tambahkan ini untuk animasi fade-in awal */
-            transition: opacity 0.5s ease-in-out; /* Tambahkan ini untuk animasi fade-in awal */
+            opacity: 0; /* Animasi fade-in awal */
+            transition: opacity 0.5s ease-in-out;
+            flex-direction: column; /* Untuk menempatkan main dan footer dalam kolom */
         }
 
         body.loaded {
             opacity: 1; /* Tampilkan body setelah loading selesai */
+        }
+
+        main {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px; /* Beri jarak antara main dan footer */
         }
 
         .container {
@@ -30,8 +41,6 @@
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 400px;
-            width: 100%;
             transition: transform 0.2s ease-in-out;
         }
 
@@ -196,58 +205,44 @@
             100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .logo {
-                max-width: 90px;
-            }
-
-            button {
-                width: 100%;
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .container {
-                margin: 20px;
-            }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8em;
+            color: #f8f9fa; /* Warna teks footer */
         }
     </style>
 </head>
 <body class="loading">
-    <div class="loader-container" id="loaderAwal">
-        <div class="loader"></div>
-    </div>
-    <div class="container">
-        <div class="logo-area">
-            <img src="logopn.png" alt="Logo Aplikasi" class="logo">
+    <main>
+        <div class="loader-container" id="loaderAwal">
+            <div class="loader"></div>
         </div>
-        <h1>KODE UJIAN</h1>
-        <div class="form-group">
-            <label for="nama">Nama Pengguna:</label>
-            <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda">
+        <div class="container">
+            <div class="logo-area">
+                <img src="logopn.png" alt="Logo Aplikasi" class="logo">
+            </div>
+            <h1>KODE UJIAN</h1>
+            <div class="form-group">
+                <label for="nama">Nama Pengguna:</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda">
+            </div>
+            <button onclick="cariKode()">Cari</button>
+
+            <div id="kode-container" class="kode-container">
+                <div id="kode-area" class="kode-area"></div>
+                <button class="salin-button" onclick="salinKode()">Salin Kode</button>
+            </div>
+
+            <div id="alert-area" class="alert" style="display: none;"></div>
         </div>
-        <button onclick="cariKode()">Cari</button>
 
-        <div id="kode-container" class="kode-container">
-            <div id="kode-area" class="kode-area"></div>
-            <button class="salin-button" onclick="salinKode()">Salin Kode</button>
+        <div class="loader-container hidden" id="loaderCari">
+            <div class="loader"></div>
         </div>
+    </main>
 
-        <div id="alert-area" class="alert" style="display: none;"></div>
-    </div>
-
-    <div class="loader-container hidden" id="loaderCari">
-        <div class="loader"></div>
-    </div>
+    <footer>&copy; 2025 PAGARNUSA UNUSIA. All rights reserved.</footer>
 
     <script>
         const dataPengguna = {
