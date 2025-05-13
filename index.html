@@ -1,282 +1,345 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login dengan Kode</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #a8edea, #fed6e3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      color: #333;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login dengan Kode</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a6560, #297131);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;  
+            margin: 0;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0; /* Tambahkan ini untuk animasi fade-in awal */
+            transition: opacity 0.5s ease-in-out; /* Tambahkan ini untuk animasi fade-in awal */
+        }
 
-    .container {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      transition: transform 0.2s ease-in-out;
-    }
+        body.loaded {
+            opacity: 1; /* Tampilkan body setelah loading selesai */
+        }
 
-    .container:hover {
-      transform: translateY(-5px);
-    }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.2s ease-in-out;
+        }
 
-    .logo-area {
-      margin-bottom: 20px;
-    }
+        .container:hover {
+            transform: translateY(-5px);
+        }
 
-    .logo {
-      max-width: 120px;
-      height: auto;
-    }
+        .logo-area {
+            margin-bottom: 20px;
+        }
 
-    h1 {
-      margin-bottom: 30px;
-      color: #555;
-      font-size: 1.8em;
-    }
+        .logo {
+            max-width: 120px;
+            height: auto;
+        }
 
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
+        h1 {
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 1.8em;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      color: #555;
-      font-weight: 600;
-      font-size: 0.95em;
-    }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 1em;
-      transition: border-color 0.3s ease;
-    }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
 
-    input:focus {
-      outline: none;
-      border-color: #007bff;
-    }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
 
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-    }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
 
-    button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
 
-    .kode-container {
-      background-color: #e9ecef;
-      padding: 12px;
-      border-radius: 6px;
-      margin-top: 25px;
-      display: none;
-      flex-direction: column;
-      align-items: stretch;
-      font-size: 0.95em;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
 
-    .kode-container.show {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .kode-container {
+            background-color: #e9ecef;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 25px;
+            display: none;
+            flex-direction: column;
+            align-items: stretch;
+            font-size: 0.95em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
 
-    .kode-area {
-      color: #495057;
-      white-space: pre-wrap;
-      margin-bottom: 10px;
-      word-break: break-word;
-      font-family: 'Courier New', Courier, monospace;
-    }
+        .kode-container.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .salin-button {
-      background-color: #28a745;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-    }
+        .kode-area {
+            color: #495057;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            word-break: break-word;
+            font-family: 'Courier New', Courier, monospace;
+        }
 
-    .salin-button:hover {
-      background-color: #1e7e34;
-      transform: scale(1.05);
-    }
+        .salin-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
 
-    .alert {
-      margin-top: 20px;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 0.9em;
-      text-align: left;
-    }
+        .salin-button:hover {
+            background-color: #1e7e34;
+            transform: scale(1.05);
+        }
 
-    .alert-success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
+        .alert {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            text-align: left;
+        }
 
-    .alert-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 25px;
-      }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-      h1 {
-        font-size: 1.5em;
-      }
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
 
-      .logo {
-        max-width: 90px;
-      }
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
 
-      button {
-        width: 100%;
-        padding: 10px;
-      }
-    }
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
 
-    @media (max-width: 1024px) {
-      .container {
-        margin: 20px;
-      }
-    }
-  </style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .logo {
+                max-width: 90px;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                margin: 20px;
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div class="logo-area">
-      <img src="logopn.png" alt="Logo Aplikasi" class="logo">
+<body class="loading">
+    <div class="loader-container" id="loaderAwal">
+        <div class="loader"></div>
     </div>
-    <h1>KODE UJIAN</h1>
-    <div class="form-group">
-      <label for="nama">Nama Pengguna:</label>
-      <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda">
+    <div class="container">
+        <div class="logo-area">
+            <img src="logopn.png" alt="Logo Aplikasi" class="logo">
+        </div>
+        <h1>KODE UJIAN</h1>
+        <div class="form-group">
+            <label for="nama">Nama Pengguna:</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda">
+        </div>
+        <button onclick="cariKode()">Cari</button>
+
+        <div id="kode-container" class="kode-container">
+            <div id="kode-area" class="kode-area"></div>
+            <button class="salin-button" onclick="salinKode()">Salin Kode</button>
+        </div>
+
+        <div id="alert-area" class="alert" style="display: none;"></div>
     </div>
-    <button onclick="tampilkanKode()">Cari</button>
 
-    <div id="kode-container" class="kode-container">
-      <div id="kode-area" class="kode-area"></div>
-      <button class="salin-button" onclick="salinKode()">Salin Kode</button>
+    <div class="loader-container hidden" id="loaderCari">
+        <div class="loader"></div>
     </div>
 
-    <div id="alert-area" class="alert" style="display: none;"></div>
-  </div>
+    <script>
+        const dataPengguna = {
+            "BUDI": "KODE-RAHASIA-BUDI-123",
+            "ANDI": "SANDI-KEREN-ANDI-456",
+            "MUHAMMAD IBNU MUNDZIR": "M06I0304M"
+            // Tambahkan data lainnya di sini
+        };
 
-  <script>
-    const dataPengguna = {
-      "BUDI": "KODE-RAHASIA-BUDI-123",
-      "ANDI": "SANDI-KEREN-ANDI-456",
-      "MUHAMMAD IBNU MUNDZIR": "M06I0304M"
-      // Tambahkan data lainnya di sini
-    };
+        const kodeContainer = document.getElementById("kode-container");
+        const kodeArea = document.getElementById("kode-area");
+        const alertArea = document.getElementById("alert-area");
+        const namaInputElemen = document.getElementById("nama");
+        const loaderAwal = document.getElementById("loaderAwal");
+        const loaderCari = document.getElementById("loaderCari");
+        const bodyElement = document.body;
 
-    const kodeContainer = document.getElementById("kode-container");
-    const kodeArea = document.getElementById("kode-area");
-    const alertArea = document.getElementById("alert-area");
-    const namaInputElemen = document.getElementById("nama");
+        // Efek loading awal selama 2 detik
+        setTimeout(() => {
+            loaderAwal.classList.add("hidden");
+            bodyElement.classList.add("loaded");
+        }, 2000);
 
-    namaInputElemen.addEventListener('input', function () {
-      this.value = this.value.toUpperCase();
-    });
+        namaInputElemen.addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });
 
-    function tampilkanKode() {
-      const namaInput = namaInputElemen.value.trim();
-      alertArea.style.display = "none";
+        function cariKode() {
+            const namaInput = namaInputElemen.value.trim();
+            alertArea.style.display = "none";
+            kodeContainer.classList.remove("show");
+            kodeArea.textContent = "";
 
-      if (dataPengguna.hasOwnProperty(namaInput)) {
-        kodeArea.textContent = dataPengguna[namaInput];
-        kodeContainer.classList.add("show");
-      } else {
-        kodeContainer.classList.remove("show");
-        alertArea.textContent = "Nama tidak ditemukan.";
-        alertArea.className = "alert alert-danger";
-        alertArea.style.display = "block";
-      }
-    }
+            loaderCari.classList.remove("hidden"); // Tampilkan loader saat mencari
 
-    function salinKode() {
-      const kodeUntukDisalin = kodeArea.textContent;
+            setTimeout(() => {
+                loaderCari.classList.add("hidden"); // Sembunyikan loader setelah 2 detik
 
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(kodeUntukDisalin)
-          .then(() => {
-            showAlert("Kode berhasil disalin!", "success");
-          })
-          .catch(err => {
-            console.error('Gagal menyalin teks: ', err);
-            fallbackCopyToClipboard(kodeUntukDisalin);
-          });
-      } else {
-        fallbackCopyToClipboard(kodeUntukDisalin);
-      }
-    }
+                if (dataPengguna.hasOwnProperty(namaInput)) {
+                    kodeArea.textContent = dataPengguna[namaInput];
+                    kodeContainer.classList.add("show");
+                } else {
+                    alertArea.textContent = "Nama tidak ditemukan.";
+                    alertArea.className = "alert alert-danger";
+                    alertArea.style.display = "block";
+                }
+            }, 2000);
+        }
 
-    function fallbackCopyToClipboard(text) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
+        function salinKode() {
+            const kodeUntukDisalin = kodeArea.textContent;
 
-      try {
-        const successful = document.execCommand('copy');
-        const msg = successful ? 'berhasil' : 'gagal';
-        showAlert(`Kode ${msg} disalin!`, successful ? "success" : "danger");
-      } catch (err) {
-        console.error('Tidak dapat menyalin teks: ', err);
-        showAlert('Gagal menyalin kode.', "danger");
-      }
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(kodeUntukDisalin)
+                    .then(() => {
+                        showAlert("Kode berhasil disalin!", "success");
+                    })
+                    .catch(err => {
+                        console.error('Gagal menyalin teks: ', err);
+                        fallbackCopyToClipboard(kodeUntukDisalin);
+                    });
+            } else {
+                fallbackCopyToClipboard(kodeUntukDisalin);
+            }
+        }
 
-      document.body.removeChild(textArea);
-    }
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
 
-    function showAlert(message, type) {
-      alertArea.textContent = message;
-      alertArea.className = `alert alert-${type}`;
-      alertArea.style.display = "block";
-      setTimeout(() => {
-        alertArea.style.display = "none";
-      }, 3000);
-    }
-  </script>
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'berhasil' : 'gagal';
+                showAlert(`Kode ${msg} disalin!`, successful ? "success" : "danger");
+            } catch (err) {
+                console.error('Tidak dapat menyalin teks: ', err);
+                showAlert('Gagal menyalin kode.', "danger");
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function showAlert(message, type) {
+            alertArea.textContent = message;
+            alertArea.className = `alert alert-${type}`;
+            alertArea.style.display = "block";
+            setTimeout(() => {
+                alertArea.style.display = "none";
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
