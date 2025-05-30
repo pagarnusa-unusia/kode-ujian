@@ -13,6 +13,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0a6560, #297131);
             display: flex;
+            flex-direction: column; /* Mengatur tata letak elemen secara kolom */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -22,7 +23,6 @@
             box-sizing: border-box;
             opacity: 0; /* Animasi fade-in awal */
             transition: opacity 0.5s ease-in-out;
-            flex-direction: column; /* Untuk menempatkan main dan footer dalam kolom */
         }
 
         body.loaded {
@@ -33,6 +33,11 @@
             width: 100%;
             max-width: 400px;
             margin-bottom: 30px; /* Beri jarak antara main dan footer */
+            flex-grow: 1; /* Memastikan main mengambil ruang yang tersedia */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
@@ -42,6 +47,8 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: transform 0.2s ease-in-out;
+            width: 100%; /* Memastikan container mengambil lebar penuh dari main */
+            box-sizing: border-box;
         }
 
         .container:hover {
@@ -157,6 +164,7 @@
             border-radius: 6px;
             font-size: 0.9em;
             text-align: left;
+            display: none; /* Sembunyikan secara default */
         }
 
         .alert-success {
@@ -189,6 +197,7 @@
         .loader-container.hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none; /* Mencegah interaksi saat disembunyikan */
         }
 
         .loader {
@@ -210,14 +219,16 @@
             padding: 20px 0;
             font-size: 0.8em;
             color: #f8f9fa; /* Warna teks footer */
+            width: 100%; /* Memastikan footer mengambil lebar penuh */
         }
     </style>
 </head>
 <body class="loading">
+    <div class="loader-container" id="loaderAwal">
+        <div class="loader"></div>
+    </div>
+
     <main>
-        <div class="loader-container" id="loaderAwal">
-            <div class="loader"></div>
-        </div>
         <div class="container">
             <div class="logo-area">
                 <img src="logopn.png" alt="Logo Aplikasi" class="logo">
@@ -234,7 +245,7 @@
                 <button class="salin-button" onclick="salinKode()">Salin Kode</button>
             </div>
 
-            <div id="alert-area" class="alert" style="display: none;"></div>
+            <div id="alert-area" class="alert"></div>
         </div>
 
         <div class="loader-container hidden" id="loaderCari">
@@ -245,36 +256,36 @@
     <footer>&copy; 2025 PAGARNUSA UNUSIA. All rights reserved.</footer>
 
     <script>
-        const dataPengguna = {const dataPengguna = {
-    // Data nama dan kode ujian
-    "DIYANTI SEKAR ARUM": "DySa20231",
-    "DWI NUR AINI": "DwNuAi20242",
-    "RISNA": "RISN20233",
-    "HOIRUL SAMBUDI": "HoSa20244",
-    "RENDI IMAM SAPUTRA": "ReImSa20245",
-    "NURUL HIDAYAH HARAHAP": "NuHiHa20246",
-    "DEDE AHMAD FAUZAN": "DeAhFa20247",
-    "CITRA HAYATUNNUFUS": "CiHa20258",
-    "AGUNG PRAYUDA": "AgPr20249",
-    "AHMAD AZARRUDDIN": "AhAz202310",
-    "NIKEN SHOFIA ZAHRA": "NiShZa202311",
-    "KHALISHA": "Khal202312",
-    "FATHMA ANNYSCHA": "FaAn202313", 
-    "IZZA QUTHROTUN NADA": "IzQuNa202414",
-    "RIKO": "Riko202415",
-    "ERINA SAFITRI": "ErSaFi202216",
-    "SYIFA ULIYA SETIAWAN": "SyUlSe202217",
-    "AMELDA": "Amel202218",
-    "DINDA AYUNI": "DiAy202419",
-    "YEYEN": "YEYE202220",
-    "LATIFATUR ROSIDAH": "LaRo202221",
-    "AHMAD YUNUS": "AhYu202422",
-    "IKRAMULWALI": "Ikra202223",
-    "ILHAM IQYANUDIN": "Illq202324",
-    "KHAIRUN ANWAR": "KhAn202425",
-    "SYAHRUL MUBAROK": "SyMu202426",
-    "MUTIAH": "Muti202227"
-};
+        const dataPengguna = {
+            // Data nama dan kode ujian
+            "DIYANTI SEKAR ARUM": "DySa20231",
+            "DWI NUR AINI": "DwNuAi20242",
+            "RISNA": "RISN20233",
+            "HOIRUL SAMBUDI": "HoSa20244",
+            "RENDI IMAM SAPUTRA": "ReImSa20245",
+            "NURUL HIDAYAH HARAHAP": "NuHiHa20246",
+            "DEDE AHMAD FAUZAN": "DeAhFa20247",
+            "CITRA HAYATUNNUFUS": "CiHa20258",
+            "AGUNG PRAYUDA": "AgPr20249",
+            "AHMAD AZARRUDDIN": "AhAz202310",
+            "NIKEN SHOFIA ZAHRA": "NiShZa202311",
+            "KHALISHA": "Khal202312",
+            "FATHMA ANNYSCHA": "FaAn202313",
+            "IZZA QUTHROTUN NADA": "IzQuNa202414",
+            "RIKO": "Riko202415",
+            "ERINA SAFITRI": "ErSaFi202216",
+            "SYIFA ULIYA SETIAWAN": "SyUlSe202217",
+            "AMELDA": "Amel202218",
+            "DINDA AYUNI": "DiAy202419",
+            "YEYEN": "YEYE202220",
+            "LATIFATUR ROSIDAH": "LaRo202221",
+            "AHMAD YUNUS": "AhYu202422",
+            "IKRAMULWALI": "Ikra202223",
+            "ILHAM IQYANUDIN": "Illq202324",
+            "KHAIRUN ANWAR": "KhAn202425",
+            "SYAHRUL MUBAROK": "SyMu202426",
+            "MUTIAH": "Muti202227"
+        };
 
         const kodeContainer = document.getElementById("kode-container");
         const kodeArea = document.getElementById("kode-area");
@@ -290,15 +301,17 @@
             bodyElement.classList.add("loaded");
         }, 2000);
 
+        // Mengubah input nama menjadi huruf besar secara otomatis
         namaInputElemen.addEventListener('input', function () {
-            this.value = this.value.toUpperCase(); // Pastikan input selalu uppercase
+            this.value = this.value.toUpperCase();
         });
 
+        // Fungsi untuk mencari kode ujian
         function cariKode() {
             const namaInput = namaInputElemen.value.trim();
-            alertArea.style.display = "none";
-            kodeContainer.classList.remove("show");
-            kodeArea.textContent = "";
+            alertArea.style.display = "none"; // Sembunyikan alert sebelumnya
+            kodeContainer.classList.remove("show"); // Sembunyikan kode container sebelumnya
+            kodeArea.textContent = ""; // Kosongkan area kode sebelumnya
 
             loaderCari.classList.remove("hidden"); // Tampilkan loader saat mencari
 
@@ -307,16 +320,18 @@
 
                 if (dataPengguna.hasOwnProperty(namaInput)) {
                     kodeArea.textContent = dataPengguna[namaInput];
-                    kodeContainer.classList.add("show");
+                    kodeContainer.classList.add("show"); // Tampilkan kode container
                 } else {
                     showAlert("Nama tidak ditemukan.", "danger");
                 }
-            }, 2000);
+            }, 2000); // Simulasi waktu pencarian
         }
 
+        // Fungsi untuk menyalin kode ke clipboard
         function salinKode() {
             const kodeUntukDisalin = kodeArea.textContent;
 
+            // Menggunakan Clipboard API modern
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(kodeUntukDisalin)
                     .then(() => {
@@ -324,17 +339,24 @@
                     })
                     .catch(err => {
                         console.error('Gagal menyalin teks: ', err);
-                        fallbackCopyToClipboard(kodeUntukDisalin);
+                        fallbackCopyToClipboard(kodeUntukDisalin); // Fallback jika gagal
                     });
             } else {
+                // Fallback untuk browser lama
                 fallbackCopyToClipboard(kodeUntukDisalin);
             }
         }
 
+        // Fungsi fallback untuk menyalin teks jika Clipboard API tidak didukung
         function fallbackCopyToClipboard(text) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
+            // Menempatkan textarea di luar layar
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "-9999px";
             document.body.appendChild(textArea);
+            textArea.focus();
             textArea.select();
 
             try {
@@ -349,12 +371,13 @@
             document.body.removeChild(textArea);
         }
 
+        // Fungsi untuk menampilkan pesan alert
         function showAlert(message, type) {
             alertArea.textContent = message;
-            alertArea.className = `alert alert-${type}`;
-            alertArea.style.display = "block";
+            alertArea.className = `alert alert-${type}`; // Atur kelas CSS sesuai tipe alert
+            alertArea.style.display = "block"; // Tampilkan alert
             setTimeout(() => {
-                alertArea.style.display = "none";
+                alertArea.style.display = "none"; // Sembunyikan alert setelah 3 detik
             }, 3000);
         }
     </script>
